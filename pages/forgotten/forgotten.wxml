@@ -1,0 +1,52 @@
+<view class="page">
+  <view class="hero-band forgotten-hero">
+    <view class="eyebrow">数据看长城</view>
+    <view class="h1">被遗忘点位</view>
+    <view class="forgotten-copy">根据照片、故事、巡检、风险和可达性排序，帮助学生和文保员找到更需要被看见的地方。</view>
+  </view>
+
+  <view class="sort-row">
+    <button
+      wx:for="{{sortModes}}"
+      wx:key="key"
+      class="sort-btn {{activeSort === item.key ? 'active' : ''}}"
+      data-sort="{{item.key}}"
+      bindtap="setSort"
+    >{{item.label}}</button>
+  </view>
+
+  <view class="forgotten-list">
+    <view class="forgotten-card" wx:for="{{sites}}" wx:key="id">
+      <view class="card-top">
+        <view>
+          <view class="site-name">{{index + 1}}. {{item.name}}</view>
+          <view class="subtle">{{item.typeName}} · {{item.status}}</view>
+        </view>
+        <view class="forgotten-index">
+          <text>{{item.protectionScore.forgottenIndex}}</text>
+          <view>被遗忘</view>
+        </view>
+      </view>
+      <view class="priority-line {{item.protectionScore.priorityClass}}">{{item.priorityText}}</view>
+      <view class="reason-line">{{item.reasonsText}}</view>
+      <view class="mini-metrics">
+        <view>
+          <text>风险</text>
+          <text>{{item.primaryMetric.value}}/5</text>
+        </view>
+        <view>
+          <text>巡检</text>
+          <text>{{item.secondaryMetric.value}}/5</text>
+        </view>
+        <view>
+          <text>公开资料</text>
+          <text>{{item.protectionScore.publicCount}}</text>
+        </view>
+      </view>
+      <view class="action-row">
+        <button class="primary-btn" data-id="{{item.id}}" bindtap="goFootprint">去打卡巡检</button>
+        <button class="ghost-btn" data-id="{{item.id}}" bindtap="goDetail">看详情</button>
+      </view>
+    </view>
+  </view>
+</view>

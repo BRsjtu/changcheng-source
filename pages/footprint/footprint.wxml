@@ -1,0 +1,101 @@
+<view class="page footprint-page">
+  <view class="hero-band">
+    <view class="eyebrow">每一步足迹，都是长城的续章</view>
+    <view class="h1">府谷长城守护者</view>
+    <view class="hero-cartoon-wrap footprint-hero-cartoon">
+      <image class="hero-cartoon" src="/assets/cartoon/cartoon7.png" mode="aspectFit" />
+    </view>
+    <view class="hero-stats">
+      <view>
+        <text class="stat-num">{{checkedCount}}</text>
+        <text class="stat-label">{{statOneLabel}}</text>
+      </view>
+      <view>
+        <text class="stat-num">{{progressPercent}}%</text>
+        <text class="stat-label">{{statTwoLabel}}</text>
+      </view>
+      <view>
+        <text class="stat-num">{{statThreeValue}}</text>
+        <text class="stat-label">{{statThreeLabel}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="role-card card">
+    <image class="role-mascot" src="/assets/cartoon/cartoon2.png" mode="aspectFit" />
+    <view class="role-layout">
+      <view class="role-copy">
+        <view class="role-title">当前身份</view>
+        <view class="subtle">{{roleText}}</view>
+        <view class="mode-help">{{modeHelp}}</view>
+      </view>
+      <view class="role-switch">
+        <button class="role-btn {{role === 'volunteer' ? 'active' : ''}}" data-role="volunteer" bindtap="switchRole">志愿者</button>
+        <button class="role-btn {{role === 'warden' ? 'active' : ''}}" data-role="warden" bindtap="switchRole">文保员</button>
+      </view>
+    </view>
+  </view>
+
+  <map
+    class="great-map"
+    latitude="{{center.latitude}}"
+    longitude="{{center.longitude}}"
+    scale="10"
+    markers="{{markers}}"
+    show-location
+    bindmarkertap="onMarkerTap"
+    bindcallouttap="onMarkerTap"
+    bindlabeltap="onMarkerTap"
+  ></map>
+
+  <view class="card selected-card" wx:if="{{selected}}">
+    <view class="row between">
+      <view>
+        <view class="site-title">{{selected.name}}</view>
+        <view class="subtle">{{selected.typeName}} · {{selected.status}}</view>
+      </view>
+      <view class="pill">{{selectedStatusText}}</view>
+    </view>
+    <view class="site-story">{{selected.story}}</view>
+    <view class="distance-line">{{locationText}}</view>
+    <view wx:if="{{visitPhotoPath}}" class="visit-photo-card">
+      <image src="{{visitPhotoPath}}" mode="aspectFill" bindtap="previewVisitPhoto" />
+      <button class="photo-clear" bindtap="clearVisitPhoto">移除</button>
+    </view>
+    <view class="photo-action-row">
+      <button class="ghost-btn" bindtap="chooseVisitPhoto">{{visitPhotoPath ? '重选现场照片' : '添加现场照片'}}</button>
+      <view class="subtle">{{visitPhotoPath ? '照片将随本次记录保存' : '可选，记录现场情况'}}</view>
+    </view>
+    <view class="action-grid">
+      <button class="primary-btn" bindtap="recordVisit">{{primaryActionText}}</button>
+      <button class="ghost-btn" bindtap="goDetail">查看墩台志</button>
+    </view>
+  </view>
+
+  <view class="section-title">{{recentTitle}}</view>
+  <view class="card">
+    <block wx:if="{{recentRecords.length}}">
+      <view class="swipe-row" wx:for="{{recentRecords}}" wx:key="id">
+        <button class="delete-btn" data-id="{{item.id}}" bindtap="deleteRecord">删除</button>
+        <view
+          class="record-row"
+          style="transform: translateX({{item.swipeX || 0}}px);"
+          data-index="{{index}}"
+          data-id="{{item.id}}"
+          bindtouchstart="onRecordTouchStart"
+          bindtouchmove="onRecordTouchMove"
+          bindtouchend="onRecordTouchEnd"
+          bindtouchcancel="onRecordTouchEnd"
+        >
+          <view class="record-main">
+            <view class="record-name">{{item.siteName}}</view>
+            <view class="subtle">{{item.title}} · {{item.timeText}}</view>
+          </view>
+          <image wx:if="{{item.photoPath}}" class="record-thumb" src="{{item.photoPath}}" mode="aspectFill" data-path="{{item.photoPath}}" bindtap="previewRecordPhoto" />
+          <view class="pill">{{item.roleText}}</view>
+        </view>
+      </view>
+    </block>
+    <view wx:else class="empty">{{emptyText}}</view>
+  </view>
+</view>

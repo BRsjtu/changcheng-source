@@ -1,0 +1,48 @@
+<view class="page">
+  <view class="hero-band journal-hero">
+    <view class="eyebrow">知长城</view>
+    <view class="h1">读懂一座墩台</view>
+    <view class="hero-cartoon-wrap journal-hero-cartoon">
+      <image class="hero-cartoon" src="/assets/cartoon/cartoon3.png" mode="aspectFit" />
+    </view>
+    <view class="journal-copy">从点位、故事、现状和守护建议开始，把 140 多公里边墙变成可走、可记、可分享的路线。</view>
+  </view>
+
+  <button class="forgotten-entry" bindtap="goForgotten">
+    <view class="forgotten-entry-icon">!</view>
+    <view class="forgotten-entry-copy">
+      <view>被遗忘点位</view>
+      <text>按数据找出最需要巡检和补充照片的地方</text>
+    </view>
+    <view class="forgotten-entry-arrow">›</view>
+  </button>
+
+  <view class="filter-row">
+    <button
+      wx:for="{{filters}}"
+      wx:key="key"
+      class="filter-btn {{activeFilter === item.key ? 'active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="setFilter"
+    >{{item.label}}</button>
+  </view>
+
+  <view class="site-list">
+    <view class="site-card card" wx:for="{{filteredSites}}" wx:key="id" data-id="{{item.id}}" bindtap="goDetail">
+      <view class="cover" style="background: {{item.coverColor}};">
+        <image wx:if="{{item.imageDisplayPath}}" class="cover-image" src="{{item.imageDisplayPath}}" mode="aspectFill" />
+        <view wx:if="{{item.imageDisplayPath}}" class="cover-shade"></view>
+        <text>{{item.shortName}}</text>
+      </view>
+      <view class="site-body">
+        <view class="row between">
+          <view class="site-name">{{item.name}}</view>
+          <view class="pill">{{item.typeName}}</view>
+        </view>
+        <view class="subtle">{{item.status}} · {{item.tagsText}}</view>
+        <view class="priority-line {{item.priorityClass}}">{{item.priorityText}}</view>
+        <view class="story">{{item.story}}</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,106 @@
+<view class="page workshop-page">
+  <view class="hero-band">
+    <view class="eyebrow">讲长城</view>
+    <view class="h1">长城礼物生成器</view>
+    <view class="hero-cartoon-wrap workshop-hero-cartoon">
+      <image class="hero-cartoon" src="/assets/cartoon/cartoon1.png" mode="aspectFit" />
+    </view>
+    <view class="workshop-copy">上传一张现场照片，或直接选择点位主题，用 AI 生成冰箱贴、书签、明信片、帆布包图案和手机壁纸。</view>
+  </view>
+
+  <view class="section-title">选择点位</view>
+  <view class="site-configurator">
+    <view class="site-configurator-head">
+      <text>当前主题</text>
+      <view>{{selectedSiteName}}</view>
+    </view>
+    <view class="site-option-grid">
+      <button
+        wx:for="{{sites}}"
+        wx:key="id"
+        class="site-option {{selectedSiteId === item.id ? 'selected' : ''}}"
+        hover-class="site-option-pressed"
+        data-id="{{item.id}}"
+        bindtap="selectSite"
+      >
+        <text>{{item.shortName}}</text>
+        <view>{{item.typeName}}</view>
+      </button>
+    </view>
+  </view>
+
+  <view class="section-title">文创类型</view>
+  <view class="type-grid">
+    <button
+      wx:for="{{designTypes}}"
+      wx:key="*this"
+      class="type-btn {{designType === item ? 'active' : ''}}"
+      data-type="{{item}}"
+      bindtap="selectType"
+    >{{item}}</button>
+  </view>
+
+  <view class="section-title">照片和想法</view>
+  <view class="card idea-card">
+    <image class="idea-mascot" src="/assets/cartoon/cartoon5.png" mode="aspectFit" />
+    <button class="upload-card" hover-class="upload-card-pressed" disabled="{{generating || photos.length >= 4}}" bindtap="choosePhoto">
+      <view class="upload-icon">
+        <view class="upload-plus"></view>
+      </view>
+      <view class="upload-copy">
+        <view class="upload-title">{{photos.length ? (photos.length >= 4 ? '已选 4 张照片' : '继续添加照片') : '上传现场照片'}}</view>
+        <view class="upload-hint">{{photos.length ? '可继续补充不同角度的照片' : '点击拍照或从相册选择'}}</view>
+      </view>
+    </button>
+    <view wx:if="{{photos.length}}" class="photo-grid">
+      <view
+        class="photo-item"
+        wx:for="{{photos}}"
+        wx:key="id"
+        data-index="{{index}}"
+        bindtap="previewPhoto"
+      >
+        <image class="photo-preview" src="{{item.path}}" mode="aspectFill" />
+        <button class="photo-remove" data-id="{{item.id}}" catchtap="removePhoto" disabled="{{generating}}">×</button>
+      </view>
+    </view>
+    <textarea value="{{note}}" bindinput="onNoteInput" maxlength="180" placeholder="可补充风格：更像邮票、国潮、儿童友好、适合志愿者徽章……" />
+    <view class="danger-note">不上传照片也能生成主题图；上传照片时会把图片通过共享 AI 网关处理，不会在小程序端保存上游 API Key。</view>
+    <view class="generate-actions">
+      <button class="primary-btn generate-btn" loading="{{generating}}" disabled="{{generating}}" bindtap="generate">{{generating ? '生成中' : '生成文创图'}}</button>
+      <button wx:if="{{generating}}" class="ghost-btn cancel-btn" disabled="{{canceling}}" bindtap="cancelGenerate">{{canceling ? '取消中' : '取消生成'}}</button>
+    </view>
+    <view wx:if="{{generating}}" class="generation-progress">
+      <view class="progress-head">
+        <text>{{generationProgressText}}</text>
+        <text>{{generationProgress}}%</text>
+      </view>
+      <view class="progress-scene">
+        <image class="progress-mascot" src="{{generationMascot}}" mode="aspectFit" style="left: {{generationMascotProgress}}%;"></image>
+      </view>
+      <view class="progress-track">
+        <view class="progress-fill" style="width: {{generationProgress}}%;"></view>
+      </view>
+      <view class="progress-note">生成过程中可以取消；完成后作品会自动保存到记录。</view>
+    </view>
+  </view>
+
+  <view wx:if="{{currentImage}}" class="section-title">最新作品</view>
+  <view wx:if="{{currentImage}}" class="card result-card">
+    <image class="result-image" src="{{currentImage}}" mode="widthFix" bindtap="previewCurrent" />
+    <view class="result-actions">
+      <button class="secondary-btn" bindtap="saveCurrent">保存到相册</button>
+      <button class="ghost-btn" bindtap="goHistory">作品记录</button>
+    </view>
+  </view>
+
+  <view class="section-title">最近作品</view>
+  <view class="creation-grid">
+    <view class="creation-card" wx:for="{{creations}}" wx:key="id" data-index="{{index}}" bindtap="previewCreation">
+      <image src="{{item.localPath}}" mode="aspectFill" />
+      <view>{{item.designType}}</view>
+      <text>{{item.siteName}}</text>
+    </view>
+  </view>
+  <view wx:if="{{!creations.length}}" class="card empty">还没有作品。先选一个点位，生成第一份长城礼物。</view>
+</view>

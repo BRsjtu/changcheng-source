@@ -1,0 +1,85 @@
+<view class="page">
+  <view class="hero-band">
+    <view class="eyebrow">我的长城</view>
+    <view class="h1">守护记录</view>
+    <view class="hero-cartoon-wrap history-hero-cartoon">
+      <image class="hero-cartoon" src="/assets/cartoon/cartoon4.jpg" mode="aspectFit" />
+    </view>
+    <view class="history-copy">这里会保存你的打卡、巡检、故事和 AI 文创，形成自己的长城守护档案。</view>
+    <view class="patrol-summary">
+      <view>
+        <text>{{todayPatrolRecordCount}}</text>
+        <text>巡检次数</text>
+      </view>
+      <view>
+        <text>{{todayPatrolSiteCount}}/{{totalSites}}</text>
+        <text>已巡点位</text>
+      </view>
+      <view>
+        <text>{{todayPatrolPercent}}%</text>
+        <text>巡检进度</text>
+      </view>
+      <view>
+        <text>{{todayCheckinRecordCount}}</text>
+        <text>今日打卡</text>
+      </view>
+    </view>
+  </view>
+
+  <button class="gallery-entry" bindtap="goGallery">
+    <view>共享空间</view>
+    <text>看大家公开的足迹照片和文创作品</text>
+  </button>
+
+  <view class="history-filter-row">
+    <button
+      wx:for="{{filters}}"
+      wx:key="key"
+      class="history-filter {{activeFilter === item.key ? 'active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="setFilter"
+    >{{item.label}}</button>
+  </view>
+
+  <view class="section-title">足迹与巡检</view>
+  <view class="card">
+    <block wx:if="{{filteredRecords.length}}">
+      <view class="swipe-row" wx:for="{{filteredRecords}}" wx:key="id">
+        <button class="delete-btn" data-id="{{item.id}}" bindtap="deleteRecord">删除</button>
+        <view
+          class="history-row"
+          style="transform: translateX({{item.swipeX || 0}}px);"
+          data-index="{{index}}"
+          data-id="{{item.id}}"
+          bindtouchstart="onRecordTouchStart"
+          bindtouchmove="onRecordTouchMove"
+          bindtouchend="onRecordTouchEnd"
+          bindtouchcancel="onRecordTouchEnd"
+        >
+          <view class="row between">
+            <view class="history-title">{{item.siteName}}</view>
+            <view class="pill">{{item.title}}</view>
+          </view>
+          <view class="subtle">{{item.timeText}} · {{item.roleText}} · {{item.distanceText}}</view>
+          <view wx:if="{{item.note}}" class="history-note">{{item.note}}</view>
+          <image wx:if="{{item.photoPath}}" class="history-photo" src="{{item.photoPath}}" mode="aspectFill" data-path="{{item.photoPath}}" bindtap="previewRecordPhoto" />
+          <button wx:if="{{item.photoPath}}" class="share-btn" data-index="{{index}}" catchtap="publishRecord">公开分享</button>
+        </view>
+      </view>
+    </block>
+    <view wx:else class="empty">这里还没有对应记录。</view>
+  </view>
+
+  <view class="section-title">文创作品</view>
+  <view class="history-creation-grid">
+    <view class="history-creation" wx:for="{{creations}}" wx:key="id">
+      <view class="creation-preview" data-index="{{index}}" bindtap="previewCreation">
+      <image src="{{item.localPath}}" mode="aspectFill" />
+      <view>{{item.designType}}</view>
+      <text>{{item.siteName}}</text>
+      </view>
+      <button class="share-btn creation-share" data-index="{{index}}" catchtap="publishCreation">公开分享</button>
+    </view>
+  </view>
+  <view wx:if="{{!creations.length}}" class="card empty">还没有文创作品。</view>
+</view>

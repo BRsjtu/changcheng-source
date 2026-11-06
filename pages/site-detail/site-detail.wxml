@@ -1,0 +1,104 @@
+  <view class="page" wx:if="{{site}}">
+  <view class="detail-cover" style="background: {{site.coverColor}};">
+    <image wx:if="{{coverImagePath}}" class="detail-cover-image" src="{{coverImagePath}}" mode="aspectFill" />
+    <view wx:if="{{coverImagePath}}" class="detail-cover-shade"></view>
+    <view class="eyebrow">{{site.typeName}} · {{site.status}}</view>
+    <view class="detail-title">{{site.name}}</view>
+    <view wx:if="{{site.coverText}}" class="detail-cover-text">{{site.coverText}}</view>
+    <image class="detail-mascot" src="/assets/cartoon/cartoon6.png" mode="aspectFit" />
+    <view class="tag-row">
+      <text wx:for="{{site.tags}}" wx:key="*this">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="section-title">历史短故事</view>
+  <view class="card detail-text">{{site.story}}</view>
+
+  <view wx:if="{{protectionScore}}" class="section-title">保护状态评分</view>
+  <view wx:if="{{protectionScore}}" class="card score-card">
+    <view class="score-top">
+      <view>
+        <view class="score-label">保护优先级</view>
+        <view class="score-priority {{protectionScore.priorityClass}}">{{protectionScore.priority}}</view>
+      </view>
+      <view class="score-index">
+        <text>{{protectionScore.forgottenIndex}}</text>
+        <view>被遗忘指数</view>
+      </view>
+    </view>
+    <view class="metric-list">
+      <view class="metric-row" wx:for="{{protectionScore.metrics}}" wx:key="key">
+        <view class="metric-head">
+          <text>{{item.label}}</text>
+          <text>{{item.value}}/5</text>
+        </view>
+        <view class="metric-track">
+          <view class="metric-fill {{item.tone}}" style="width: {{item.percent}}%;"></view>
+        </view>
+        <view class="metric-desc">{{item.desc}}</view>
+      </view>
+    </view>
+    <view class="score-reasons">
+      <text wx:for="{{protectionScore.reasons}}" wx:key="*this">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="section-title">位置和探索</view>
+  <view class="card location-card">
+    <map
+      class="detail-map"
+      latitude="{{site.latitude}}"
+      longitude="{{site.longitude}}"
+      scale="13"
+      markers="{{mapMarkers}}"
+      include-points="{{mapPoints}}"
+    ></map>
+    <view class="location-actions">
+      <button class="primary-btn" bindtap="goFootprint">去这里打卡</button>
+      <button class="ghost-btn" bindtap="openLocation">打开位置</button>
+    </view>
+  </view>
+
+  <view wx:if="{{publicItems.length}}" class="section-title">大家公开的现场</view>
+  <scroll-view wx:if="{{publicItems.length}}" class="public-strip" scroll-x>
+    <view class="public-card" wx:for="{{publicItems}}" wx:key="id">
+      <image class="public-image" src="{{item.imageUrl}}" mode="aspectFill" data-index="{{index}}" bindtap="previewPublicPhoto" />
+      <view class="public-info">
+        <text>{{item.badgeText}}</text>
+        <view>{{item.title}}</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="section-title">守护建议</view>
+  <view class="card detail-text">{{site.protectionTip}}</view>
+
+  <view class="section-title">{{recordSectionTitle}}</view>
+  <view class="card form-card">
+    <textarea value="{{note}}" bindinput="onNoteInput" maxlength="240" placeholder="写下你听到的故事、看到的现状，或需要提醒文保员关注的问题。" />
+    <button class="detail-upload-btn" hover-class="detail-upload-pressed" bindtap="choosePhoto">
+      <view class="upload-mini-icon">+</view>
+      <view class="upload-mini-copy">
+        <view>{{photoPath ? '重选照片' : '选择照片'}}</view>
+        <text>{{photoPath ? '已选择 1 张现场照片' : '可选，拍全景或周边环境'}}</text>
+      </view>
+    </button>
+    <image wx:if="{{photoPath}}" class="picked-photo" src="{{photoPath}}" mode="aspectFill" bindtap="previewPickedPhoto" />
+    <button class="primary-btn submit-btn" bindtap="saveStory">{{submitRecordText}}</button>
+  </view>
+
+  <view class="section-title">本点记录</view>
+  <view class="card">
+    <block wx:if="{{records.length}}">
+      <view class="detail-record" wx:for="{{records}}" wx:key="id">
+        <view class="row between">
+          <view class="record-title">{{item.title}}</view>
+          <view class="subtle">{{item.timeText}}</view>
+        </view>
+        <view wx:if="{{item.note}}" class="record-note">{{item.note}}</view>
+        <image wx:if="{{item.photoPath}}" class="record-photo" src="{{item.photoPath}}" mode="aspectFill" data-path="{{item.photoPath}}" bindtap="previewRecordPhoto" />
+      </view>
+    </block>
+    <view wx:else class="empty">还没有关于这个点位的记录。</view>
+  </view>
+</view>

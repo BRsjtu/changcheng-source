@@ -1,0 +1,150 @@
+.forgotten-hero {
+  margin-bottom: 20rpx;
+}
+
+.forgotten-copy {
+  margin-top: 16rpx;
+  color: rgba(255, 253, 247, 0.86);
+  font-size: 28rpx;
+  line-height: 1.55;
+}
+
+.sort-row {
+  display: flex;
+  gap: 12rpx;
+  margin: 22rpx 0;
+  overflow-x: auto;
+}
+
+.sort-btn {
+  flex: 0 0 auto;
+  min-height: 64rpx;
+  padding: 0 20rpx;
+  color: #65705f;
+  background: #fffdf7;
+  font-size: 26rpx;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.sort-btn.active {
+  color: #fff;
+  background: #8a4b20;
+}
+
+.forgotten-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18rpx;
+}
+
+.forgotten-card {
+  padding: 22rpx;
+  border-radius: 16rpx;
+  background: #fffdf7;
+  box-shadow: 0 10rpx 24rpx rgba(43, 45, 35, 0.06);
+}
+
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18rpx;
+}
+
+.site-name {
+  color: #263128;
+  font-size: 31rpx;
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.forgotten-index {
+  flex: 0 0 128rpx;
+  padding: 14rpx 10rpx;
+  border-radius: 14rpx;
+  background: #fff3d8;
+  text-align: center;
+}
+
+.forgotten-index text {
+  display: block;
+  color: #8a4b20;
+  font-size: 38rpx;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.forgotten-index view {
+  margin-top: 6rpx;
+  color: #8a4b20;
+  font-size: 21rpx;
+}
+
+.priority-line {
+  display: inline-flex;
+  margin-top: 14rpx;
+  padding: 6rpx 12rpx;
+  border-radius: 999rpx;
+  font-size: 23rpx;
+  font-weight: 800;
+}
+
+.priority-line.high {
+  color: #b42318;
+  background: #fff0ed;
+}
+
+.priority-line.medium {
+  color: #8a4b20;
+  background: #fff3d8;
+}
+
+.priority-line.low {
+  color: #1f6d3d;
+  background: #e8f1e5;
+}
+
+.reason-line {
+  margin-top: 12rpx;
+  color: #3d463b;
+  font-size: 26rpx;
+  line-height: 1.45;
+}
+
+.mini-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+
+.mini-metrics > view {
+  padding: 14rpx 10rpx;
+  border-radius: 12rpx;
+  background: #f5f1e8;
+  text-align: center;
+}
+
+.mini-metrics text {
+  display: block;
+}
+
+.mini-metrics text:first-child {
+  color: #66705f;
+  font-size: 21rpx;
+}
+
+.mini-metrics text:last-child {
+  margin-top: 6rpx;
+  color: #263128;
+  font-size: 27rpx;
+  font-weight: 900;
+}
+
+.action-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14rpx;
+  margin-top: 18rpx;
+}

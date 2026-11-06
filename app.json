@@ -1,0 +1,59 @@
+{
+  "pages": [
+    "pages/footprint/footprint",
+    "pages/journal/journal",
+    "pages/workshop/workshop",
+    "pages/site-detail/site-detail",
+    "pages/history/history",
+    "pages/gallery/gallery",
+    "pages/forgotten/forgotten"
+  ],
+  "window": {
+    "navigationBarTitleText": "墩台志",
+    "navigationBarBackgroundColor": "#273927",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f1e8",
+    "backgroundTextStyle": "dark"
+  },
+  "networkTimeout": {
+    "request": 420000,
+    "uploadFile": 420000,
+    "downloadFile": 60000
+  },
+  "tabBar": {
+    "color": "#65705f",
+    "selectedColor": "#1f6d3d",
+    "backgroundColor": "#fffdf7",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/footprint/footprint",
+        "text": "足迹",
+        "iconPath": "assets/tab-footprint.png",
+        "selectedIconPath": "assets/tab-footprint-active.png"
+      },
+      {
+        "pagePath": "pages/journal/journal",
+        "text": "墩台志",
+        "iconPath": "assets/tab-journal.png",
+        "selectedIconPath": "assets/tab-journal-active.png"
+      },
+      {
+        "pagePath": "pages/workshop/workshop",
+        "text": "文创",
+        "iconPath": "assets/tab-workshop.png",
+        "selectedIconPath": "assets/tab-workshop-active.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "记录到达长城点位附近的打卡和巡检足迹"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

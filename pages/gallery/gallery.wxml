@@ -1,0 +1,35 @@
+<view class="page">
+  <view class="hero-band gallery-hero">
+    <view class="eyebrow">大家的长城</view>
+    <view class="h1">共享空间</view>
+    <view class="gallery-copy">这里展示大家主动公开的足迹照片和 AI 文创。点开点位，可以继续了解它背后的故事。</view>
+  </view>
+
+  <view class="gallery-filter-row">
+    <button
+      wx:for="{{filters}}"
+      wx:key="key"
+      class="gallery-filter {{activeKind === item.key ? 'active' : ''}}"
+      data-kind="{{item.key}}"
+      bindtap="setFilter"
+    >{{item.label}}</button>
+  </view>
+
+  <view wx:if="{{items.length}}" class="gallery-grid">
+    <view class="gallery-card" wx:for="{{items}}" wx:key="id">
+      <image class="gallery-image" src="{{item.imageUrl}}" mode="aspectFill" data-index="{{index}}" bindtap="preview" />
+      <view class="gallery-body">
+        <view class="row between">
+          <view class="gallery-title">{{item.title}}</view>
+          <view class="pill">{{item.badgeText}}</view>
+        </view>
+        <view class="subtle">{{item.siteName || '未标注点位'}} · {{item.timeText}}</view>
+        <view wx:if="{{item.note}}" class="gallery-note">{{item.note}}</view>
+        <button wx:if="{{item.siteId}}" class="site-link" data-site-id="{{item.siteId}}" bindtap="goSite">查看点位</button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:elif="{{loading}}" class="card empty">正在读取共享空间...</view>
+  <view wx:else class="card empty">还没有公开内容。可以在“守护记录”里选择照片或文创公开分享。</view>
+</view>
